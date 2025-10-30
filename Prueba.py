@@ -27,3 +27,4 @@ for nombre_archivo in os.listdir(ruta_origen):
         shutil.move(ruta_origen_archivo, ruta_destino_archivo)
         print(f"'{nombre_archivo}' movido a la carpeta '{carpetas_destino[extension]}'")
 
+
