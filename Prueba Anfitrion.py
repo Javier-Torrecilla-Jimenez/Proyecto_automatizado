@@ -1,7 +1,7 @@
 import os
 import shutil
 
-ruta_origen = "C:\\users\\jtorrecjim\\Downloads"
+ruta_origen = "C:\\users\\torre\\Downloads"
 
 carpetas_destino = {
     ".txt": ".txt", #Indicamos la extensión y su carpeta. 
@@ -30,4 +30,5 @@ for nombre_archivo in os.listdir(ruta_origen):
         #Si no se cumple que cree una carpete de la extension
         carpetas_destino = carpetas_destino + [nombre_archivo[extension]]
         print(carpetas_destino)
+
 
