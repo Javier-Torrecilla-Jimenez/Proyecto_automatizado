@@ -28,7 +28,8 @@ for nombre_archivo in os.listdir(ruta_origen):
         print(f"'{nombre_archivo}' movido a la carpeta '{carpetas_destino[extension]}'")
     else:
         #Si no se cumple que cree una carpete de la extension
-        carpetas_destino = carpetas_destino + [nombre_archivo[extension]]
+        carpetas_destino = carpetas_destino + {nombre_archivo[extension]}
         print(carpetas_destino)
+
 
 
