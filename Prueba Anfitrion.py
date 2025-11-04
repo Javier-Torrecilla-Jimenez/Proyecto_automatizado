@@ -4,10 +4,12 @@ import shutil
 ruta_origen = "C:\\users\\torre\\Downloads"
 
 carpetas_destino = {
-    ".txt": ".txt", #Indicamos la extensión y su carpeta. 
-    ".pdf": ".pdf",
-    ".jpg": ".jpg",
-    ".ova": ".ova",
+    ".txt": "D:\pruebas\.txt", #Indicamos la extensión y su carpeta. 
+    ".pdf": "D:\pruebas\.pdf",
+    ".jpg": "D:\pruebas\.jpg",
+    ".ova": "D:\pruebas\.ova",
+    ".pptx": "D:\pruebas\.pptx",
+    ".docx": "D:\pruebas\.docx",
 }
 for extension in carpetas_destino:
     if not os.path.exists(os.path.join(ruta_origen, extension)):
@@ -26,6 +28,7 @@ for nombre_archivo in os.listdir(ruta_origen):
         # Mueve el archivo a la carpeta de destino
         shutil.move(ruta_origen_archivo, ruta_destino_archivo)
         print(f"'{nombre_archivo}' movido a la carpeta '{carpetas_destino[extension]}'")
+
 
 
 
