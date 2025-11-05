@@ -8,14 +8,17 @@ carpetas_destino = {
     ".txt": ".txt", #Indicamos la extensión y su carpeta. 
     ".pdf": ".pdf",
     ".jpg": ".jpg",
-    ".ova": ".ova",
+    ".ova": ".ova", 
+    ".pptx": ".pptx",
+    ".docx": ".docx",
 }
 
-for extension in carpetas_destino: #para las extensiones en carpetas destino
-    if not os.path.exists(os.path.join(ruta_origen, extension)): 
-        os.makedirs(os.path.join(ruta_destino, extension))
+for extension in carpetas_destino: #Si la extension esta en carpetas destino
+    if not os.path.exists(os.path.join(ruta_origen, extension)): #Si no existe la carpeta de la extension en la ruta de origen
+        os.makedirs(os.path.join(ruta_destino, extension), exist_ok=True) #Crea las carpetas en la ruta de destino
+    #con el exist_ok indicamos que lo ignore si la carpeta ya existe anteriormente
 
-for nombre_archivo in os.listdir(ruta_destino):
+for nombre_archivo in os.listdir(ruta_origen):
     # Obtén la extensión del archivo
     nombre, extension = os.path.splitext(nombre_archivo) 
     
@@ -29,6 +32,8 @@ for nombre_archivo in os.listdir(ruta_destino):
         shutil.move(ruta_origen_archivo, ruta_destino_archivo)
         print(f"'{nombre_archivo}' movido a la carpeta '{carpetas_destino[extension]}'")
     
+
+
 
 
 
