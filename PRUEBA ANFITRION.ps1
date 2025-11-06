@@ -3,8 +3,6 @@
 $origen = "C:\Users\torre\Downloads"
 
 #Ruta destino archivos con extension .pdf
-$destino_pdf = "C:\Users\torre\Downloads\Pruebas\PDF"
+$destino_pdf = "D:\Pruebas2\PDF"
 
-Move-Item -path C:\Users\torre\Downloads\*.pdf -Destination $destino_pdf -Force
-
-
+copy-Item -path C:\Users\torre\Downloads\*.pdf -Destination $destino_pdf 
