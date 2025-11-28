@@ -2,22 +2,25 @@
 $origen = "C:\Users\torre\Downloads"
 $destino = "D:\Pruebas2\"
 
-#Ruta destino archivos con extension .pdf
-$destinopdf = "D:\Pruebas2\PDF\"
-$carpetas_destino = @{
-    "txt" = ".txt" #Indicamos la extensión y su carpeta. 
-    "pdf" = ".pdf"
-    "jpg" = ".jpg"
-    "ova" = ".ova"
-}
-foreach ($extension in $carpetas_destino) {
-    Join-path -Path $destinopdf -ChildPath $extension # si no existe lo crea
-    
+$CarpDest = @{
+    txt = ".txt" #Indicamos la extensión y su carpeta. 
+    pdf = ".pdf"
+    jpg = ".jpg"
+    ova = ".ova"
 }
 
-if (!(Test-Path $destinopdf)) { #Analiza si la ruta de destinopdf existe
-    New-Item -Path $destinopdf -ItemType "Directory" -force # si no existe lo crea
+foreach ($extension in $CarpDest.GetEnumerator()) {
+    $CarpeN = Join-path -Path $destino -ChildPath $extension.Value
+    if (!(Test-Path $CarpeN)) { #Analiza si la ruta de destino existe
+    New-Item -Path $CarpeN -ItemType "Directory" -force # si no existe lo crea
+}
+    Get-ChildItem -Path $origen -Filter [$extension.Value] -Recurse | Copy-Item -Destination $carpeN    
+
 }
 
-copy-Item -path $origen*$extension -Destination $destinopdf 
+
+
+
+
+
         
