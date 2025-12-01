@@ -13,10 +13,10 @@ foreach ($extension in $CarpDest.GetEnumerator()) {
     $CarpeN = Join-path -Path $destino -ChildPath $extension.Value
     if (!(Test-Path $CarpeN)) { #Analiza si la ruta de destino existe
     New-Item -Path $CarpeN -ItemType "Directory" -force # si no existe lo crea
+    }
+    Copy-Item -path $origen -Destination D:\Pruebas2\.jpg -recurse 
 }
-    Get-ChildItem -Path $origen -Filter [$extension.Value] -Recurse | Copy-Item -Destination $carpeN    
-
-}
+    #Get-ChildItem -Path $origen -Filter [$extension.Value] -Recurse | Copy-Item * -Destination $carpeN  
 
 
 
