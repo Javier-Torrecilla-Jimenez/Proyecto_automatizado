@@ -18,9 +18,8 @@ for extension in carpetas_destino: #Si la extension esta en carpetas destino
         os.makedirs(os.path.join(ruta_destino, extension), exist_ok=True) #Crea las carpetas en la ruta de destino
     #con el exist_ok indicamos que lo ignore si la carpeta ya existe anteriormente
 
-for nombre_archivo in os.listdir(ruta_origen):
-    # Obtén la extensión del archivo
-    nombre, extension = os.path.splitext(nombre_archivo) 
+for nombre_archivo in os.listdir(ruta_origen): #un bucle lista los elementos de la ruta de origen y les da el valor de la variable nombre_archivo
+    nombre, extension = os.path.splitext(nombre_archivo) #separa el nombre de la extension de los elementos de la variable y le da a la variable extension el valor de las extensiones de los archivos
     
     # Si el archivo tiene una extensión que queremos organizar
     if extension in carpetas_destino:
