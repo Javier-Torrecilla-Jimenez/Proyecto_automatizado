@@ -4,9 +4,9 @@ $destino = "D:\Pruebas2\"
 
 $CarpDest = @{
     txt = ".txt" #Indicamos la extensión y su carpeta. 
-    pdf = ".ova"
+    ova = ".ova"
     jpg = ".jpg"
-    ova = ".pdf"
+    pdf = ".pdf"
 }
 
 foreach ($extension in $CarpDest.GetEnumerator()) {
@@ -22,3 +22,13 @@ $extensionestipo| ForEach-Object{
     Get-ChildItem -Path $origen -filter *$extensionestipo| copy-item -Destination $CarpeN
 }
 }
+$extor = Get-ChildItem -path $origen
+$nombre = $extor.BaseName
+$ext = $extor.Extension
+$ext
+$ext| ForEach-Object{
+    if 
+}
+
+}
+
