@@ -4,23 +4,21 @@ $destino = "D:\Pruebas2\"
 
 $CarpDest = @{
     txt = ".txt" #Indicamos la extensión y su carpeta. 
-    pdf = ".pdf"
+    pdf = ".ova"
     jpg = ".jpg"
-    ova = ".ova"
+    ova = ".pdf"
 }
 
 foreach ($extension in $CarpDest.GetEnumerator()) {
-    $CarpeN = Join-path -Path $destino -ChildPath $extension.Value
+    $CarpeN = Join-path -Path $destino -ChildPath $extension.Value # crea la ruta de destino de cada valor de el diccionario y la agrupa en la variable CarpeN
     if (!(Test-Path $CarpeN)) { #Analiza si la ruta de destino existe
     New-Item -Path $CarpeN -ItemType "Directory" -force # si no existe lo crea
     }
-    Copy-Item -path $origen -Destination D:\Pruebas2\.jpg -recurse 
+    #damos el valor de las claves a la variable de extensionestipo
+    $extensionestipo = $extension.Value
+#Bucle que realiza la accion de dentro de el por cada valor dentro de la variable de extensionestipo
+$extensionestipo| ForEach-Object{ 
+    #Coge todos los elementos de la ruta de origen con los valores de la variable y los copai en la ruta de destino 
+    Get-ChildItem -Path $origen -filter *$extensionestipo| copy-item -Destination $CarpeN
 }
-    #Get-ChildItem -Path $origen -Filter [$extension.Value] -Recurse | Copy-Item * -Destination $carpeN  
-
-
-
-
-
-
-        
+}
