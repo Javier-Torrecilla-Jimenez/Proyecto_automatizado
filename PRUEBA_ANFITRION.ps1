@@ -26,16 +26,18 @@ foreach ($ext2 in $extd.Extension){ #Bucle para cada objeto dentro de la variabl
     if (!(Test-Path $CarpeN)) { #Analiza si la ruta de destino existe
         New-Item -Path $CarpeN -ItemType "Directory" -force # si no existe lo crea
      }
+
     }
     $extensionestipo = $extension.Value #damos el valor de las claves a la variable de extensionestipo
+    
     foreach ($extensionestipo2 in $Extensionestipo) {
-        write-host $extensionestipo2 
-    $extensionestipo2 | ForEach-Object{ #Bucle que realiza la accion de dentro de el por cada valor dentro de la variable de extensionestipo
-        #Get-ChildItem -Path $origen -filter *$extensionestipo| Copy-Item -Destination $CarpeN #Coge todos los elementos de la ruta de origen con los valores de la variable y los copia en la ruta de destino
-        write-host $extensionestipo
-     }
+        write-host Extensiones tipo 1: $extensionestipo 
+        write-host Extensiones tipo 2: $extensionestipo2
+        Get-ChildItem -Path $origen -filter *$extensionestipo2 | Copy-Item -Destination $CarpeN #Coge todos los elementos de la ruta de origen con los valores de la variable y los copia en la ruta de destino
     }
+
 }
+
 
 
 
