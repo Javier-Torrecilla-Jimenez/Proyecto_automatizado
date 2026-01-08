@@ -3,7 +3,7 @@ import shutil
 
 ruta_origen = "C:\\users\\torre\\Downloads"
 ruta_destino = "D:\\Pruebas"
-
+ 
 carpetas_destino = {
    
 }
