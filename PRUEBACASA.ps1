@@ -1,6 +1,6 @@
 #Ruta de origen de los archivos
-$origen = "C:\Users\Javier\Downloads"
-$destino = "C:\Users\Javier\Pruebas2"
+$origen = "C:\Users\torre\Downloads"
+$destino = "D:\Pruebas2"
 
 $CarpDest = @{
     txt = ".txt" #Indicamos la extensión y su carpeta. 
@@ -9,7 +9,6 @@ $CarpDest = @{
     pdf = ".pdf"
 }
 $extor = Get-ChildItem -path $origen #Le da a la variable el valor de los items de la ruta de origen
-$nombre = $extor.BaseName #Da a la variable el valor de los nombres de los items de la ruta de origen
 $ext = $extor.Extension #Da el valor de las extensiones de los items de la ruta de origen 
 
 $exts = $ext.TrimStart('.') #Le da a la vairbale el valor de la extensiones pero le elimina el . del principio
