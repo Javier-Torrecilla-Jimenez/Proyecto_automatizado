@@ -1,6 +1,8 @@
-diccionario = {
- ".txt": "txt", #Indicamos la extensión y su carpeta. 
-}
-
-diccionario['hola'] = 'valor'
-print(diccionario)
+usuarios = []
+i = 1
+while i <= 3:
+    n1 = input(f"Dime el {i} nombre: ")
+    i += 1
+    usuarios.append(n1.strip().lower())
+usuarios.sort()
+print(usuarios)
