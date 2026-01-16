@@ -5,24 +5,28 @@ import shutil
 
 
 
-ruta_origen = "C:\\users\\javier\\Downloads"
-Ruta = input(f"Introduce carpeta destino almacenara archivos ¡IMPORTANTE! (Se creara la ruta si no existe): ") 
+ruta_origen = "C:\\users\\torre\\Downloads"
+Ruta = input(f"Introduce carpeta destino almacenara archivos ¡IMPORTANTE! (Si no existe se crea. Ruta escrita en este formato --> C:\\users\\torre\\Downloads): ") 
 ruta_destino = Ruta.replace(' ', '').replace('\\', '\\\\') 
 print(ruta_destino)
+
+with open(f"{ruta_destino}ValorVariable.txt", "r") as archivo:
+    Valor = archivo.readline()
+
+with open(f"{ruta_destino}ValorVariable.txt", "w") as archivo:
+    archivo.write("")
+print(Valor)
+#ARRIBANOBORRAR
+# ABAJODEBEMOSPERSONALIZAR para que cuando el valor de valor sea 1 no ejecute si es 0 si      
+
+    
 if not os.path.exists(ruta_destino):
-    with open("D:\\Pruebas2\\ValorVariable.txt", "w") as archivo:
-        archivo.write("0")
-        print("hola")
-if os.path.exist(ruta_destino):
-     with open("D:\\Pruebas2\\ValorVariable.txt", "w") as archivo:
+    with open(f"{ruta_destino}ValorVariable.txt", "w") as archivo:
+        archivo.write("0")       
+elif os.path.exists(ruta_destino):
+     with open(f"{ruta_destino}ValorVariable.txt", "w") as archivo:
           archivo.write("1")
 
-with open("D:\\Pruebas2\\ValorVariable.txt", "r") as a:
-     Valor = a.readline()
-if Valor == 1:
-     
-else:
-     print()
 
 carpetas_destino = {
    
