@@ -5,7 +5,7 @@ import shutil
 
 
 
-ruta_origen = "C:\\users\\torre\\Downloads"
+ruta_origen = "C:\\users\\javier\\Downloads"
 Ruta = input(f"Introduce carpeta destino almacenara archivos ¡IMPORTANTE! (Se creara la ruta si no existe): ") 
 ruta_destino = Ruta.replace(' ', '').replace('\\', '\\\\') 
 print(ruta_destino)
