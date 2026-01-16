@@ -13,13 +13,14 @@ if not os.path.exists(ruta_destino):
     with open("D:\\Pruebas2\\ValorVariable.txt", "w") as archivo:
         archivo.write("0")
         print("hola")
-if os.path.exist(ruta_destino)
+if os.path.exist(ruta_destino):
      with open("D:\\Pruebas2\\ValorVariable.txt", "w") as archivo:
           archivo.write("1")
+
 with open("D:\\Pruebas2\\ValorVariable.txt", "r") as a:
      Valor = a.readline()
 if Valor == 1:
-     break
+     
 else:
      print()
 
