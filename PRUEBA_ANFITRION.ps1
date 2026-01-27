@@ -6,7 +6,9 @@ $CarpDest = @{
 }
 
 $extd = Get-ChildItem -path $origen -File #Le da a la variable el valor de los items de la ruta de origen
-$exts = $extd.Extension.TrimStart('.') #Le da a la vairbale el valor de la extensiones pero le elimina el . del principio
+$exts = $extd.Extension.TrimStart('.')
+
+#Le da a la vairbale el valor de la extensiones pero le elimina el . del principio
 
 
 foreach ($ext2 in $extd.Extension){ #Bucle para cada objeto dentro de la variable ext
