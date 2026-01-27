@@ -1,5 +1,5 @@
 #Ruta de origen de los archivos
-$origen = "C:\Users\torre\Downloads\"
+$origen = "C:\Users\jtorrecjim\Downloads\"
 $destino = "D:\Pruebas2\"
 
 $CarpDest = @{
