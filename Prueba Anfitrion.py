@@ -1,10 +1,45 @@
 import os
 import shutil
 
-ruta_origen = "C:\\users\\torre\\Downloads"
-ruta_destino = "D:\\Pruebas"
+        
 
- 
+func = os.getcwd()+"\\"+".log.txt"
+#Ruta del archivo con el que vamos a iterar
+func1 = func.replace(' ', '').replace('\\', '\\\\')     
+#Ruta del archivo modificada para que python la comprenda de manera correcta
+ruta_origen = "C:\\users\\torre\\Downloads"
+#Ruta origen de donde cogera los archivosS
+    
+if not os.path.exists(func1):
+#Si la ruta no existe
+    with open(f"{func1}", "w") as archivo:
+    # Abre el archivo en modo escritura, con el que iteramos
+        archivo.write("0")
+        #Escribe el valor string 0
+
+with open(f"{func1}", "r") as archivo:
+#Abre el archivo en modo lectura, con el que iteramos
+    for valor in archivo:
+    #Bucle para el valor dentor de archivo    
+        if valor == "0":
+        #Si el valor es igual a 0    
+            Ruta = input(f"Introduce carpeta destino almacenara archivos ¡IMPORTANTE! (Si no existe se crea. Ruta escrita en este formato --> C:\\users\\torre\\Downloads): ") 
+            #Pide al usuario que introduzca la ruta de destino de los archivos en su equipo
+            ruta_destino2 = Ruta.replace(' ', '').replace('\\', '\\\\')
+            with open(f".log2.txt", "w") as archivo:
+                archivo.write(ruta_destino2)
+            #Ruta del archivo modificada para que python la comprenda de manera correcta
+            with open(f"{func1}", "w") as archivo:
+            #Abre el archivo en modo escritura
+                archivo.write("1")
+                #Escribe el valor 1
+        else:
+            pass     
+        #Condicion para cuando el if anterior sea diferente a 0 siga ejecuta el codigo. 
+with open(f".log2.txt", "r") as archivo:
+    #abre en modo lectura el archivo que hemos creado para almacenar la ruta de destino
+    ruta_destino = archivo.readline()
+
 carpetas_destino = {
    
 }
