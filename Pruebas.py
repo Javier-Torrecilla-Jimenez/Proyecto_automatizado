@@ -1,22 +1,35 @@
 import os
 import shutil
-
         
 
-func = os.getcwd()+"\\"+".log.txt"
+func = os.getcwd()+"\\"+".verificacion.txt"
+print(func)
 #Ruta del archivo con el que vamos a iterar
 func1 = func.replace(' ', '').replace('\\', '\\\\')     
+
 #Ruta del archivo modificada para que python la comprenda de manera correcta
 ruta_origen = "C:\\users\\torre\\Downloads"
 #Ruta origen de donde cogera los archivosS
-    
+existe = bool()
 if not os.path.exists(func1):
-#Si la ruta no existe
-    with open(f"{func1}", "w") as archivo:
-    # Abre el archivo en modo escritura, con el que iteramos
-        archivo.write("0")
-        #Escribe el valor string 0
-
+    existe = False
+else:
+    existe = True  
+print(existe)
+with open(func1, "w") as write:
+    if existe == False :
+    #Si la ruta no existe
+        # Abre el archivo en modo escritura, con el que iteramos
+            write.write("0")
+            #Escribe el valor string 0
+    if existe:
+        with open(func1, "r") as read:
+            for linea in read:
+                if linea == 0:
+                    write.write("1")
+                else:
+                    pass
+ 
 with open(f"{func1}", "r") as archivo:
 #Abre el archivo en modo lectura, con el que iteramos
     for valor in archivo:
@@ -36,6 +49,7 @@ with open(f"{func1}", "r") as archivo:
         else:
             pass     
         #Condicion para cuando el if anterior sea diferente a 0 siga ejecuta el codigo. 
+print("hola")
 with open(f".log2.txt", "r") as archivo:
     #abre en modo lectura el archivo que hemos creado para almacenar la ruta de destino
     ruta_destino = archivo.readline()
