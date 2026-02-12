@@ -40,6 +40,8 @@ with open(f".log2.txt", "r") as archivo:
     #abre en modo lectura el archivo que hemos creado para almacenar la ruta de destino
     ruta_destino = archivo.readline()
 
+
+print("Hola")
 carpetas_destino = {
    
 }
