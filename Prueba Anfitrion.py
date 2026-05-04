@@ -1,70 +1,163 @@
-import os
-import shutil
+import os  # Librería para trabajar con el sistema de archivos (carpetas, rutas, etc.)
+import shutil  # Librería para mover archivos
+import tkinter as tk  # Librería para crear la interfaz gráfica
+from tkinter import filedialog, messagebox  # Herramientas para seleccionar carpetas y mostrar mensajes
 
-        
+# Variables globales donde guardaremos las rutas seleccionadas por el usuario
+ruta_origen = ""
+ruta_destino = ""
 
-func = os.getcwd()+"\\"+".log.txt"
-#Ruta del archivo con el que vamos a iterar
-func1 = func.replace(' ', '').replace('\\', '\\\\')     
-#Ruta del archivo modificada para que python la comprenda de manera correcta
-ruta_origen = "C:\\users\\torre\\Downloads"
-#Ruta origen de donde cogera los archivosS
-    
-if not os.path.exists(func1):
-#Si la ruta no existe
-    with open(f"{func1}", "w") as archivo:
-    # Abre el archivo en modo escritura, con el que iteramos
-        archivo.write("0")
-        #Escribe el valor string 0
-
-with open(f"{func1}", "r") as archivo:
-#Abre el archivo en modo lectura, con el que iteramos
-    for valor in archivo:
-    #Bucle para el valor dentor de archivo    
-        if valor == "0":
-        #Si el valor es igual a 0    
-            Ruta = input(f"Introduce carpeta destino almacenara archivos ¡IMPORTANTE! (Si no existe se crea. Ruta escrita en este formato --> C:\\users\\torre\\Downloads): ") 
-            #Pide al usuario que introduzca la ruta de destino de los archivos en su equipo
-            ruta_destino2 = Ruta.replace(' ', '').replace('\\', '\\\\')
-            with open(f".log2.txt", "w") as archivo:
-                archivo.write(ruta_destino2)
-            #Ruta del archivo modificada para que python la comprenda de manera correcta
-            with open(f"{func1}", "w") as archivo:
-            #Abre el archivo en modo escritura
-                archivo.write("1")
-                #Escribe el valor 1
-        else:
-            pass     
-        #Condicion para cuando el if anterior sea diferente a 0 siga ejecuta el codigo. 
-with open(f".log2.txt", "r") as archivo:
-    #abre en modo lectura el archivo que hemos creado para almacenar la ruta de destino
-    ruta_destino = archivo.readline()
-
-
-print("Hola")
-carpetas_destino = {
-   
+# Diccionario que relaciona extensiones con nombres más amigables
+extensiones_map = {
+    ".png": "Fotos",
+    ".jpg": "Fotos",
+    ".jpeg": "Fotos",
+    ".gif": "Imagenes",
+    ".bmp": "Imagenes",
+    ".pdf": "PDFs",
+    ".doc": "Documentos",
+    ".docx": "Documentos",
+    ".xls": "Excel",
+    ".xlsx": "Excel",
+    ".ppt": "Presentaciones",
+    ".pptx": "Presentaciones",
+    ".txt": "Textos",
+    ".csv": "CSV",
+    ".zip": "Comprimidos",
+    ".rar": "Comprimidos",
+    ".7z": "Comprimidos",
+    ".mp3": "Audio",
+    ".mp4": "Video",
+    ".exe": "Ejecutables",
+    ".py": "Scripts Python"
 }
-for nombre_archivo2 in os.listdir(ruta_origen): #un bucle lista los elementos de la ruta de origen y les da el valor de la variable nombre_archivo
-    nombre2, extension2 = os.path.splitext(nombre_archivo2) #separa el nombre de la extension de los elementos de la variable y le da a la variable extension el valor de las extensiones de los archivos
-    carpetas_destino[extension2]= extension2
 
-for extension in carpetas_destino: #para los valores dentro de carpetas destino se los da a la variable extension
-    if not os.path.exists(os.path.join(ruta_origen, extension)): #Si no existe la carpeta de la extension en la ruta de origen
-        os.makedirs(os.path.join(ruta_destino, extension), exist_ok=True) #Crea las carpetas en la ruta de destino
-    #con el exist_ok indicamos que lo ignore si la carpeta ya existe anteriormente
+# Función para seleccionar la carpeta de origen (de donde se cogerán los archivos)
+def seleccionar_origen():
+    global ruta_origen  # Indicamos que usamos la variable global
+    ruta_origen = filedialog.askdirectory()  # Abre un explorador para elegir carpeta
+    label_origen.config(text=ruta_origen)  # Muestra la ruta seleccionada en la interfaz
 
-for nombre_archivo in os.listdir(ruta_origen): #un bucle lista los elementos de la ruta de origen y les da el valor de la variable nombre_archivo
-    nombre, extension = os.path.splitext(nombre_archivo) #separa el nombre de la extension de los elementos de la variable y le da a la variable extension el valor de las extensiones de los archivos
-    # Si el archivo tiene una extensión que queremos organizar
-    if extension in carpetas_destino:
-            # Construye las rutas de origen y destino
-            ruta_origen_archivo = os.path.join(ruta_origen, nombre_archivo)
-            ruta_destino_archivo = os.path.join(ruta_destino, carpetas_destino[extension], nombre_archivo)
-            
-            # Mueve el archivo a la carpeta de destino
-            shutil.move(ruta_origen_archivo, ruta_destino_archivo)
+# Función para seleccionar la carpeta de destino (donde se moverán los archivos)
+def seleccionar_destino():
+    global ruta_destino
+    ruta_destino = filedialog.askdirectory()
+    label_destino.config(text=ruta_destino)
 
+# Función principal que ejecuta todo el proceso
+def ejecutar_proceso():
+    # Verifica que el usuario haya seleccionado ambas rutas
+    if not ruta_origen or not ruta_destino:
+        messagebox.showwarning("Error", "Selecciona ambas rutas")
+        return  # Sale de la función si falta alguna ruta
 
+    carpetas_destino = {}  
+    # Diccionario donde guardaremos las extensiones detectadas
 
+    # ---------------- DETECTAR EXTENSIONES ----------------
+    for nombre_archivo in os.listdir(ruta_origen):  
+        # Recorre todos los archivos de la carpeta origen
 
+        _, extension = os.path.splitext(nombre_archivo)  
+        # Separa el nombre del archivo y su extensión
+
+        if extension:  
+            # Si el archivo tiene extensión
+            carpetas_destino[extension] = extension  
+            # Guarda la extensión en el diccionario
+
+    # ---------------- CREAR CARPETAS ----------------
+    for extension in carpetas_destino:  
+        # Recorre cada extensión detectada
+
+        os.makedirs(os.path.join(ruta_destino, extension), exist_ok=True)  
+        # Crea una carpeta con el nombre de la extensión en la ruta destino
+        # exist_ok=True evita error si ya existe
+
+    # ---------------- MOVER ARCHIVOS ----------------
+    for nombre_archivo in os.listdir(ruta_origen):
+        # Recorre todos los archivos nuevamente
+
+        nombre, extension = os.path.splitext(nombre_archivo)
+
+        if extension in carpetas_destino:
+            # Si la extensión está en nuestro diccionario
+
+            origen = os.path.join(ruta_origen, nombre_archivo)
+            # Ruta completa del archivo original
+
+            destino = os.path.join(ruta_destino, extension, nombre_archivo)
+            # Ruta donde se moverá el archivo
+
+            if os.path.isfile(origen):
+                # Verifica que sea un archivo (no carpeta)
+                shutil.move(origen, destino)
+                # Mueve el archivo
+
+    # ---------------- RENOMBRAR CARPETAS ----------------
+    for nombre in os.listdir(ruta_destino):
+        # Recorre las carpetas creadas en destino
+
+        ruta_completa = os.path.join(ruta_destino, nombre)
+
+        if os.path.isdir(ruta_completa):
+            # Verifica que sea una carpeta
+
+            nombre_lower = nombre.lower()
+            # Convierte el nombre a minúsculas
+
+            if nombre_lower in extensiones_map:
+                # Si la carpeta coincide con una extensión del diccionario
+
+                nuevo_nombre = extensiones_map[nombre_lower]
+                # Obtiene el nombre descriptivo
+
+                nueva_ruta = os.path.join(ruta_destino, nuevo_nombre)
+
+                contador = 1
+                # Contador para evitar sobrescribir carpetas
+
+                while os.path.exists(nueva_ruta):
+                    # Si ya existe una carpeta con ese nombre
+                    nueva_ruta = os.path.join(ruta_destino, f"{nuevo_nombre}_{contador}")
+                    contador += 1
+
+                os.rename(ruta_completa, nueva_ruta)
+                # Renombra la carpeta
+
+    messagebox.showinfo("Listo", "Archivos organizados correctamente")
+    # Muestra mensaje final
+
+# ---------------- INTERFAZ GRÁFICA ----------------
+
+ventana = tk.Tk()  
+# Crea la ventana principal
+
+ventana.title("Organizador de Archivos")  
+# Título de la ventana
+
+ventana.geometry("500x250")  
+# Tamaño de la ventana
+
+# Botón para seleccionar carpeta origen
+btn_origen = tk.Button(ventana, text="Seleccionar carpeta ORIGEN", command=seleccionar_origen)
+btn_origen.pack(pady=10)
+
+# Texto que muestra la ruta origen seleccionada
+label_origen = tk.Label(ventana, text="No seleccionada", wraplength=450)
+label_origen.pack()
+
+# Botón para seleccionar carpeta destino
+btn_destino = tk.Button(ventana, text="Seleccionar carpeta DESTINO", command=seleccionar_destino)
+btn_destino.pack(pady=10)
+
+# Texto que muestra la ruta destino seleccionada
+label_destino = tk.Label(ventana, text="No seleccionada", wraplength=450)
+label_destino.pack()
+
+# Botón para ejecutar el proceso
+btn_ejecutar = tk.Button(ventana, text="Ejecutar organización", command=ejecutar_proceso)
+btn_ejecutar.pack(pady=20)
+
+ventana.mainloop()  
+# Mantiene la ventana abierta (bucle principal de la interfaz)
