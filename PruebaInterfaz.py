@@ -4,6 +4,7 @@ import customtkinter as ctk
 ctk.set_appearance_mode("dark")  # "light" o "dark"
 ctk.set_default_color_theme("blue")
 
+
 # ---------------- VENTANA PRINCIPAL ----------------
 ventana = ctk.CTk()
 ventana.title("UI de Prueba - Organizador de Archivos")
