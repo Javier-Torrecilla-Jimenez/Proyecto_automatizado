@@ -49,8 +49,8 @@ label_destino.pack()
 btn_ext = ctk.CTkButton(
     ventana,
     text="Añadir extensión",
-    command=lambda: print("EDITOR EXTENSIONES (sin función)")
-)
+    command=lambda: print("EDITOR EXTENSIONES (sin función)"),
+    )
 btn_ext.pack(pady=10)
 
 # ---------------- BOTÓN EJECUTAR ----------------
