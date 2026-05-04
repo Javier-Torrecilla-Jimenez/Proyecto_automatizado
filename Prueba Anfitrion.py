@@ -2,7 +2,7 @@ import os  # Librería para trabajar con el sistema de archivos (carpetas, rutas
 import shutil  # Librería para mover archivos
 import tkinter as tk  # Librería para crear la interfaz gráfica
 from tkinter import filedialog, messagebox  # Herramientas para seleccionar carpetas y mostrar mensajes
-
+import customtkinter as ctk
 # Variables globales donde guardaremos las rutas seleccionadas por el usuario
 ruta_origen = ""
 ruta_destino = ""
@@ -129,34 +129,42 @@ def ejecutar_proceso():
     # Muestra mensaje final
 
 # ---------------- INTERFAZ GRÁFICA ----------------
+ctk.set_appearance_mode("dark")
+ctk.set_default_color_theme("blue")
+ventana = ctk.CTk()  
 
-ventana = tk.Tk()  
 # Crea la ventana principal
 
 ventana.title("Organizador de Archivos")  
 # Título de la ventana
 
-ventana.geometry("500x250")  
+ventana.geometry("500x350")  
 # Tamaño de la ventana
 
 # Botón para seleccionar carpeta origen
-btn_origen = tk.Button(ventana, text="Seleccionar carpeta ORIGEN", command=seleccionar_origen)
+btn_origen = ctk.CTkButton(
+    ventana, 
+    text="Seleccionar carpeta ORIGEN", 
+    command=seleccionar_origen
+    )
 btn_origen.pack(pady=10)
 
 # Texto que muestra la ruta origen seleccionada
-label_origen = tk.Label(ventana, text="No seleccionada", wraplength=450)
+label_origen = ctk.CTkLabel(ventana, 
+                        text="No seleccionada", 
+                        wraplength=450)
 label_origen.pack()
 
 # Botón para seleccionar carpeta destino
-btn_destino = tk.Button(ventana, text="Seleccionar carpeta DESTINO", command=seleccionar_destino)
+btn_destino = ctk.CTkButton(ventana, text="Seleccionar carpeta DESTINO", command=seleccionar_destino)
 btn_destino.pack(pady=10)
 
 # Texto que muestra la ruta destino seleccionada
-label_destino = tk.Label(ventana, text="No seleccionada", wraplength=450)
+label_destino = ctk.CTkLabel(ventana, text="No seleccionada", wraplength=450)
 label_destino.pack()
 
 # Botón para ejecutar el proceso
-btn_ejecutar = tk.Button(ventana, text="Ejecutar organización", command=ejecutar_proceso)
+btn_ejecutar = ctk.CTkButton(ventana, text="Ejecutar organización", command=ejecutar_proceso)
 btn_ejecutar.pack(pady=20)
 
 ventana.mainloop()  
