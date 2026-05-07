@@ -2,7 +2,10 @@ import os  # Librería para trabajar con el sistema de archivos (carpetas, rutas
 import shutil  # Librería para mover archivos
 import tkinter as tk  # Librería para crear la interfaz gráfica
 from tkinter import filedialog, messagebox  # Herramientas para seleccionar carpetas y mostrar mensajes
-import customtkinter as ctk
+import customtkinter as ctk #Herramienta permite diseñar la interfaz grafica de forma sencilla
+import webbrowser #Libreria permite acceder a la web directamente desde un enlace
+
+
 # Variables globales donde guardaremos las rutas seleccionadas por el usuario
 ruta_origen = ""
 ruta_destino = ""
@@ -31,6 +34,11 @@ extensiones_map = {
     ".exe": "Ejecutables",
     ".py": "Scripts Python"
 }
+def URL_python():
+    webbrowser.open("https://www.python.org/downloads/")
+#Función para redirigir a la pagina de descarga de Python 
+
+
 
 # Función para seleccionar la carpeta de origen (de donde se cogerán los archivos)
 def seleccionar_origen():
@@ -48,124 +56,154 @@ def seleccionar_destino():
 def ejecutar_proceso():
     # Verifica que el usuario haya seleccionado ambas rutas
     if not ruta_origen or not ruta_destino:
-        messagebox.showwarning("Error", "Selecciona ambas rutas")
+        messagebox.showwarning("Error", "Selecciona ambas rutas") 
         return  # Sale de la función si falta alguna ruta
 
-    carpetas_destino = {}  
-    # Diccionario donde guardaremos las extensiones detectadas
-
-    # ---------------- DETECTAR EXTENSIONES ----------------
-    for nombre_archivo in os.listdir(ruta_origen):  
-        # Recorre todos los archivos de la carpeta origen
-
-        _, extension = os.path.splitext(nombre_archivo)  
-        # Separa el nombre del archivo y su extensión
-
-        if extension:  
-            # Si el archivo tiene extensión
-            carpetas_destino[extension] = extension  
-            # Guarda la extensión en el diccionario
-
-    # ---------------- CREAR CARPETAS ----------------
-    for extension in carpetas_destino:  
-        # Recorre cada extensión detectada
-
-        os.makedirs(os.path.join(ruta_destino, extension), exist_ok=True)  
-        # Crea una carpeta con el nombre de la extensión en la ruta destino
-        # exist_ok=True evita error si ya existe
-
-    # ---------------- MOVER ARCHIVOS ----------------
+      # Recorremos uno a uno todos los elementos que hay dentro de la carpeta origen
     for nombre_archivo in os.listdir(ruta_origen):
-        # Recorre todos los archivos nuevamente
 
-        nombre, extension = os.path.splitext(nombre_archivo)
+        # Construimos la ruta completa del elemento (carpeta + nombre)
+        ruta_archivo = os.path.join(ruta_origen, nombre_archivo)
 
-        if extension in carpetas_destino:
-            # Si la extensión está en nuestro diccionario
+        if not os.path.isfile(ruta_archivo):
+            continue
+        #evita todas las carpetas de la carpeta de origen
 
-            origen = os.path.join(ruta_origen, nombre_archivo)
-            # Ruta completa del archivo original
+        _, extension = os.path.splitext(nombre_archivo)
+        #Separa el nombre de la extensión de los archivos y se queda solo con el nombre
+        
+        #convertimos la extensión a minúsculas para que ".PNG" y ".png" se tratem igual
+        extension = extension.lower()
 
-            destino = os.path.join(ruta_destino, extension, nombre_archivo)
-            # Ruta donde se moverá el archivo
+        # Si el archivo no tiene extensión (por ejemplo un fichero sin tipo), lo saltamos
+        if not extension:
+            continue
+        
+        #Todas las extensiones no pertenecientes a el diccionario se guardan en la carpeta otros
+        nombre_carpeta = extensiones_map.get(extension, "Otros")
 
-            if os.path.isfile(origen):
-                # Verifica que sea un archivo (no carpeta)
-                shutil.move(origen, destino)
-                # Mueve el archivo
-
-    # ---------------- RENOMBRAR CARPETAS ----------------
-    for nombre in os.listdir(ruta_destino):
-        # Recorre las carpetas creadas en destino
-
-        ruta_completa = os.path.join(ruta_destino, nombre)
-
-        if os.path.isdir(ruta_completa):
-            # Verifica que sea una carpeta
-
-            nombre_lower = nombre.lower()
-            # Convierte el nombre a minúsculas
-
-            if nombre_lower in extensiones_map:
-                # Si la carpeta coincide con una extensión del diccionario
-
-                nuevo_nombre = extensiones_map[nombre_lower]
-                # Obtiene el nombre descriptivo
-
-                nueva_ruta = os.path.join(ruta_destino, nuevo_nombre)
-
-                contador = 1
-                # Contador para evitar sobrescribir carpetas
-
-                while os.path.exists(nueva_ruta):
-                    # Si ya existe una carpeta con ese nombre
-                    nueva_ruta = os.path.join(ruta_destino, f"{nuevo_nombre}_{contador}")
-                    contador += 1
-
-                os.rename(ruta_completa, nueva_ruta)
-                # Renombra la carpeta
-
+        #Crea la ruta de destino de los archivos 
+        carpeta_destino = os.path.join(ruta_destino, nombre_carpeta)
+        
+        #Crea carpetas evitando errores
+        os.makedirs(carpeta_destino, exist_ok=True)
+        
+        #Ruta de destino tras ser movido el archivo, es decir, la ruta final
+        destino = os.path.join(carpeta_destino, nombre_archivo)
+        
+        #Si la ruta de destino no existe la crea        
+        if not os.path.exists(destino):
+            shutil.move(ruta_archivo, destino)
+    
+    #Muestra mensaje 
     messagebox.showinfo("Listo", "Archivos organizados correctamente")
-    # Muestra mensaje final
 
 # ---------------- INTERFAZ GRÁFICA ----------------
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
 ventana = ctk.CTk()  
+# Crea la ventana principals
+titulo = ctk.CTkLabel(
+    ventana,
+    text="ORGANIZADOR DE ARCHIVOS",
+    font=("times new roman", 24, "bold")
+    )
+titulo.pack(pady=(10,0))
 
-# Crea la ventana principal
+titulo = ctk.CTkLabel(
+    ventana,
+    text="Organiza de forma manual o automatica tus archivos",
+    font=("times new roman", 12, "bold")
+    )
+titulo.pack(pady=(0,0))
 
+
+inicio = ctk.CTkTabview(ventana,
+)
+tab_principal = inicio.add("Programa manual")
+tab_menu = inicio.add("Manual usuario")
+inicio.pack(expand=True, fill="both")
+
+btn_descarga = ctk.CTkButton(tab_menu,
+            text="Instalar Python",
+            command=URL_python,
+            fg_color="red",
+            height= 10 
+) 
+btn_descarga.pack(pady=(5,20))
+
+linea = ctk.CTkFrame(ventana,
+            fg_color="grey",
+            height=(2),
+            width=(900)
+)
+linea.pack()
+
+frame_botones = ctk.CTkFrame(tab_principal,fg_color="transparent")
+frame_botones.pack(pady=(15,5))
+#frame para alinear los botones dentro de la ventana
+
+frame_textos = tk.Frame(tab_principal, bg=ventana.cget("bg"))
+frame_textos.pack()
+#frame para alinear los textos en la ventana 
 ventana.title("Organizador de Archivos")  
 # Título de la ventana
 
-ventana.geometry("500x350")  
+ventana.geometry("700x550")  
 # Tamaño de la ventana
+
 
 # Botón para seleccionar carpeta origen
 btn_origen = ctk.CTkButton(
-    ventana, 
-    text="Seleccionar carpeta ORIGEN", 
-    command=seleccionar_origen
+            frame_botones, 
+            text="Seleccionar carpeta ORIGEN", 
+            command=seleccionar_origen,
     )
-btn_origen.pack(pady=10)
+btn_origen.pack(side="left", padx=40)
 
 # Texto que muestra la ruta origen seleccionada
-label_origen = ctk.CTkLabel(ventana, 
-                        text="No seleccionada", 
-                        wraplength=450)
-label_origen.pack()
+label_origen = tk.Label(frame_textos, 
+            text="No seleccionada", 
+            bg=ventana.cget("bg"),
+            fg="white",
+                        )
+label_origen.pack(side="left", padx=65)
 
 # Botón para seleccionar carpeta destino
-btn_destino = ctk.CTkButton(ventana, text="Seleccionar carpeta DESTINO", command=seleccionar_destino)
-btn_destino.pack(pady=10)
+btn_destino = ctk.CTkButton(frame_botones, 
+                            text="Seleccionar carpeta DESTINO", 
+                            command=seleccionar_destino
+                            )
+btn_destino.pack(side="left", padx=30)
 
+#flecha = tk.Label(ventana,
+#            text="➜",
+#            bg=ventana.cget("bg"),
+#            font=("arial",20)
+#) 
+#flecha.place(x=335, y=222)
+    
 # Texto que muestra la ruta destino seleccionada
-label_destino = ctk.CTkLabel(ventana, text="No seleccionada", wraplength=450)
-label_destino.pack()
+label_destino = tk.Label(frame_textos, 
+            text="No seleccionada",
+            bg=ventana.cget("bg"),
+            fg="white", 
+            )
+label_destino.pack(side="left", padx=65)
+
 
 # Botón para ejecutar el proceso
-btn_ejecutar = ctk.CTkButton(ventana, text="Ejecutar organización", command=ejecutar_proceso)
+btn_ejecutar = ctk.CTkButton(tab_principal, 
+            text="Ejecutar organización", 
+            command=ejecutar_proceso,
+            width=70,
+            height=35,
+            font= ("Arial", 15, "bold")
+            )
 btn_ejecutar.pack(pady=20)
+
+
+
 
 ventana.mainloop()  
 # Mantiene la ventana abierta (bucle principal de la interfaz)
